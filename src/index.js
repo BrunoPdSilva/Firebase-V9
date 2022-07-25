@@ -21,7 +21,7 @@ getDocs(colRef)
     let books = [];
     snapshot.forEach(doc => {
       books.push({ ...doc.data(), id: doc.id })
-    })
+    });
     console.log(books);
   })
   .catch(err => console.log(err));
@@ -43,7 +43,5 @@ deleteBookForm.addEventListener('submit', e => {
   e.preventDefault();
 
   const docRef = doc(db, 'books', deleteBookForm.id.value);
-
   deleteDoc(docRef).then(() => { deleteBookForm.reset() });
-
 });
