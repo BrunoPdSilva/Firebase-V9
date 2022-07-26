@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzXdXjcgzFAclRBhTJ49OjpGUUSgIiDpc",
@@ -15,16 +15,25 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 const colRef = collection(db, 'books');
 
-// Buscando documentos
+/* // Buscando documentos
 getDocs(colRef)
-  .then(snapshot => {
-    let books = [];
-    snapshot.forEach(doc => {
-      books.push({ ...doc.data(), id: doc.id })
-    });
-    console.log(books);
-  })
-  .catch(err => console.log(err));
+.then(snapshot => {
+  let books = [];
+  snapshot.forEach(doc => {
+    books.push({ ...doc.data(), id: doc.id })
+  });
+  console.log(books);
+})
+.catch(err => console.log(err)); */
+
+// Documentos em tempo real
+onSnapshot(colRef, (snapshot) => {
+  let books = [];
+  snapshot.forEach(doc => {
+    books.push({ ...doc.data(), id: doc.id })
+  });
+  console.log(books);
+});
 
 // Adicionando documentos
 const addBookForm = document.querySelector('.add');
