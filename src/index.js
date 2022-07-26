@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query, where, orderBy, serverTimestamp } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzXdXjcgzFAclRBhTJ49OjpGUUSgIiDpc",
@@ -15,8 +15,8 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 const colRef = collection(db, 'books');
 
-// Queries
-const q = query(colRef, where("title", "==", "Filhos do Éden"));
+// Filtrando dados
+const q = query(colRef, orderBy("createdAt"));
 
 /* // Buscando documentos
 getDocs(colRef)
@@ -44,7 +44,7 @@ const addBookForm = document.querySelector('.add');
 addBookForm.addEventListener('submit', e => {
   e.preventDefault();
 
-  addDoc(colRef, { title: addBookForm.title.value, author: addBookForm.author.value })
+  addDoc(colRef, { title: addBookForm.title.value, author: addBookForm.author.value, createdAt: serverTimestamp() })
     .then(() => { addBookForm.reset() })
 });
 
