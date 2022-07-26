@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, 
   doc, onSnapshot, query, where, orderBy, serverTimestamp, getDoc, updateDoc } from "firebase/firestore";
 
@@ -14,6 +15,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const db = getFirestore();
+const auth = getAuth();
 const colRef = collection(db, 'books');
 
 // Filtrando dados
@@ -73,3 +75,19 @@ updateForm.addEventListener('submit', e => {
     .then(() => updateForm.reset())
 
 });
+
+// Cadastrando usuários
+const signupForm = document.querySelector('.signup');
+signupForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const email = signupForm.email.value;
+  const password = signupForm.password.value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(credential => {
+      console.log('Usuário criado:', credential.user)
+    })
+    .catch(err => console.log(err.message));
+
+})
