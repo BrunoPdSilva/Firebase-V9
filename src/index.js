@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query, where, orderBy, serverTimestamp, getDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, 
+  doc, onSnapshot, query, where, orderBy, serverTimestamp, getDoc, updateDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzXdXjcgzFAclRBhTJ49OjpGUUSgIiDpc",
@@ -28,6 +29,10 @@ getDocs(colRef)
   console.log(books);
 })
 .catch(err => console.log(err)); */
+
+// Buscar um único documento
+const docRef = doc(db, 'books', 'MU1ASkKKmpG2lNzh0Bw4');
+onSnapshot(docRef, (doc) => console.log(doc.data(), doc.id))
 
 // Documentos em tempo real
 onSnapshot(q, (snapshot) => {
@@ -58,6 +63,13 @@ deleteBookForm.addEventListener('submit', e => {
   deleteDoc(docRef).then(() => { deleteBookForm.reset() });
 });
 
-// Buscar um único documento
-const docRef = doc(db, 'books', 'MU1ASkKKmpG2lNzh0Bw4');
-onSnapshot(docRef, (doc) => console.log(doc.data(), doc.id))
+// Atualizando um documento
+const updateForm = document.querySelector('.update');
+updateForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const docRef = doc(db, 'books', updateForm.id.value);
+  updateDoc(docRef, { title: 'Título atualizado' })
+    .then(() => updateForm.reset())
+
+});
