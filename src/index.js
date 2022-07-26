@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query, where, orderBy, serverTimestamp } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query, where, orderBy, serverTimestamp, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzXdXjcgzFAclRBhTJ49OjpGUUSgIiDpc",
@@ -57,3 +57,7 @@ deleteBookForm.addEventListener('submit', e => {
   const docRef = doc(db, 'books', deleteBookForm.id.value);
   deleteDoc(docRef).then(() => { deleteBookForm.reset() });
 });
+
+// Buscar um único documento
+const docRef = doc(db, 'books', 'MU1ASkKKmpG2lNzh0Bw4');
+onSnapshot(docRef, (doc) => console.log(doc.data(), doc.id))
