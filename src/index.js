@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, onSnapshot, query, where } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBzXdXjcgzFAclRBhTJ49OjpGUUSgIiDpc",
@@ -15,6 +15,9 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 const colRef = collection(db, 'books');
 
+// Queries
+const q = query(colRef, where("title", "==", "Filhos do Éden"));
+
 /* // Buscando documentos
 getDocs(colRef)
 .then(snapshot => {
@@ -27,7 +30,7 @@ getDocs(colRef)
 .catch(err => console.log(err)); */
 
 // Documentos em tempo real
-onSnapshot(colRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
   let books = [];
   snapshot.forEach(doc => {
     books.push({ ...doc.data(), id: doc.id })
