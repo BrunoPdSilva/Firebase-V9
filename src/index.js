@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, 
   doc, onSnapshot, query, where, orderBy, serverTimestamp, getDoc, updateDoc } from "firebase/firestore";
 
@@ -91,3 +91,22 @@ signupForm.addEventListener('submit', e => {
     .catch(err => console.log(err.message));
 
 })
+
+// Entrando com um usuário e saindo
+const logoutButton = document.querySelector('.logout');
+logoutButton.addEventListener('click', () => {
+  signOut(auth).then(() => console.log('O usuário saiu'))
+})
+
+const loginForm = document.querySelector('.login');
+loginForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const email = loginForm.email.value;
+  const password = loginForm.password.value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((credential) => console.log('Usuário logado', credential.user))
+    .catch(err => console.error(err.message))
+
+});
