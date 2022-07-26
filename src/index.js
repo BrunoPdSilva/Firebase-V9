@@ -34,10 +34,10 @@ getDocs(colRef)
 
 // Buscar um único documento
 const docRef = doc(db, 'books', 'MU1ASkKKmpG2lNzh0Bw4');
-onSnapshot(docRef, (doc) => console.log(doc.data(), doc.id))
+const unsubDoc = onSnapshot(docRef, (doc) => console.log(doc.data(), doc.id))
 
 // Documentos em tempo real
-onSnapshot(q, (snapshot) => {
+const unsubCol = onSnapshot(q, (snapshot) => {
   let books = [];
   snapshot.forEach(doc => {
     books.push({ ...doc.data(), id: doc.id })
@@ -112,4 +112,13 @@ loginForm.addEventListener('submit', e => {
 });
 
 // Vigiar mudanças Auth
-onAuthStateChanged(auth, user => console.log(user));
+const unsubAuth = onAuthStateChanged(auth, user => console.log(user));
+
+// Cancelar vigia de mudanças
+const unsubButton = document.querySelector('.unsub');
+unsubButton.addEventListener('click', () => {
+  console.log('Unsubscribing...')
+  unsubCol();
+  unsubDoc();
+  unsubAuth();
+})
