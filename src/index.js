@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, getDocs, addDoc, deleteDoc, 
   doc, onSnapshot, query, where, orderBy, serverTimestamp, getDoc, updateDoc } from "firebase/firestore";
 
@@ -110,3 +110,6 @@ loginForm.addEventListener('submit', e => {
     .catch(err => console.error(err.message))
 
 });
+
+// Vigiar mudanças Auth
+onAuthStateChanged(auth, user => console.log(user));
